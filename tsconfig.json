@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": false,
+    "module": "commonJS",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "declaration": true
+  },
+  "include": ["src", "src/modules/cars/repositories/.ts"]
+}
