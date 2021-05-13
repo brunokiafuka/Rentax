@@ -11,7 +11,8 @@
     "module": "commonJS",
     "outDir": "dist",
     "moduleResolution": "node",
-    "declaration": true
+    "declaration": true,
+    "resolveJsonModule": true
   },
   "include": ["src", "src/modules/cars/repositories/.ts"]
 }
