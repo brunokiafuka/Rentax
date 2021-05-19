@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Rentax Docs",
-    "description": "Rentax API documentation",
+    "title": "Rentx Docs",
+    "description": "Rentx API documentation",
     "version": "1.0.0",
     "contact": {
-      "email": "bruno@rentax.io"
+      "email": "bruno@Rentx.io"
     }
   },
   "paths": {
