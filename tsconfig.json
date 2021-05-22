@@ -5,6 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "types": ["reflect-metadata"],
     "allowSyntheticDefaultImports": true,
     "strict": false,
     "forceConsistentCasingInFileNames": false,
@@ -12,7 +13,8 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "declaration": true,
-    "resolveJsonModule": true
-  },
-  "include": ["src", "src/modules/cars/repositories/.ts"]
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
 }
