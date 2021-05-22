@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 
 import { CreateCategoryUseCase } from "./useCase";
 
 class CreateCategoryController {
-  constructor(private createCategoryUseCase: CreateCategoryUseCase) {}
-
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       const { name, description } = req.body;
+      const createCategoryUseCase = container.resolve(CreateCategoryUseCase);
 
-      await this.createCategoryUseCase.execute({ name, description });
+      await createCategoryUseCase.execute({ name, description });
 
       return res.status(201).send();
     } catch (err) {
@@ -18,4 +18,4 @@ class CreateCategoryController {
   }
 }
 
-export { CreateCategoryController };
+export default new CreateCategoryController();

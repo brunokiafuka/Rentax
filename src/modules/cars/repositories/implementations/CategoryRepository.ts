@@ -14,6 +14,7 @@ class CategoryRepository implements ICategoriesRepository {
     this.repository = getRepository(Category);
   }
 
+  // singleton ==
   // public static getInstance(): CategoryRepository {
   //   if (!CategoryRepository.INSTANCE) {
   //     CategoryRepository.INSTANCE = new CategoryRepository();
