@@ -1,4 +1,4 @@
-import { Category } from "../../entities/Category";
+import { Category } from "../../infra/typorm/entities/Category";
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,

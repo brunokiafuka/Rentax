@@ -1,10 +1,10 @@
 import { getRepository, Repository } from "typeorm";
 
-import { Category } from "../../entities/Category";
+import { Category } from "../entities/Category";
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,
-} from "../interfaces/ICategoriesRepository";
+} from "../../../repositories/interfaces/ICategoriesRepository";
 
 class CategoryRepository implements ICategoriesRepository {
   // private static INSTANCE: CategoryRepository;
