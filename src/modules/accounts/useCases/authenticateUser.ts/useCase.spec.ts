@@ -1,6 +1,7 @@
-import { AppError } from "../../../../errors/appError";
-import { ICreateUserDTO } from "../../dtos/ICreateUsers";
-import { UserRepositoryInMemory } from "../../repositories/in-memory/UsersRepositoryInMemory";
+import { AppError } from "@errors/appError";
+import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUsers";
+import { UserRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersRepositoryInMemory";
+
 import { CreateUserUseCase } from "../createUser/useCase";
 import { AuthenticateUserUseCase } from "./useCase";
 
@@ -33,18 +34,16 @@ describe("Authenticate User", () => {
     expect(result).toHaveProperty("token");
   });
 
-  it("should not be able authenticate a non-existing user", async () => {
+  it("should not be able authenticate a non-existing user", () => {
     expect(async () => {
-      const result = await authUserUseCase.execute({
+      await authUserUseCase.execute({
         email: "fake@rentx.com",
         password: "123456",
       });
-
-      expect(result).toHaveProperty("token");
     }).rejects.toBeInstanceOf(AppError);
   });
 
-  it("should not be able authenticate a user with incorrect password", async () => {
+  it("should not be able authenticate a user with incorrect password", () => {
     expect(async () => {
       const user: ICreateUserDTO = {
         name: "Bruno",
@@ -55,12 +54,10 @@ describe("Authenticate User", () => {
 
       await createUserUseCase.execute(user);
 
-      const result = await authUserUseCase.execute({
+      await authUserUseCase.execute({
         email: user.email,
         password: "wrong-pass",
       });
-
-      expect(result).toHaveProperty("token");
     }).rejects.toBeInstanceOf(AppError);
   });
 });
