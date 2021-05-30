@@ -1,4 +1,5 @@
-import { Category } from "../../infra/typorm/entities/Category";
+import { Category } from "@modules/cars/infra/typorm/entities/Category";
+
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,
