@@ -13,4 +13,9 @@ export interface ICarsRepositoryDTO {
 export interface ICarsRepository {
   create(data: ICarsRepositoryDTO): Promise<Car>;
   findCarByPlate(license_plate: string): Promise<Car>;
+  findAvailable(
+    brand?: string,
+    category_id?: string,
+    name?: string
+  ): Promise<Car[]>;
 }
