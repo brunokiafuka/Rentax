@@ -1,4 +1,5 @@
 import { Car } from "@modules/cars/infra/typorm/entities/Car";
+import { Specification } from "@modules/cars/infra/typorm/entities/Specification";
 
 export interface ICarsRepositoryDTO {
   name: string;
@@ -8,11 +9,14 @@ export interface ICarsRepositoryDTO {
   fine_amount: number;
   brand: string;
   category_id: string;
+  specifications?: Specification[];
+  id?: string;
 }
 
 export interface ICarsRepository {
   create(data: ICarsRepositoryDTO): Promise<Car>;
   findCarByPlate(license_plate: string): Promise<Car>;
+  findById(car_id: string): Promise<Car>;
   findAvailable(
     brand?: string,
     category_id?: string,
