@@ -28,15 +28,16 @@ describe("Create Category", () => {
     expect(createdCategory).toHaveProperty("id");
   });
 
-  it("should not be able to create categories with same name", () => {
-    expect(async () => {
-      const category = {
-        name: "SUV",
-        description: "Test SUV",
-      };
+  it("should not be able to create categories with same name", async () => {
+    const category = {
+      name: "SUV",
+      description: "Test SUV",
+    };
 
-      await createCategoryUseCase.execute(category);
-      await createCategoryUseCase.execute(category);
-    }).rejects.toBeInstanceOf(AppError);
+    await createCategoryUseCase.execute(category);
+
+    await expect(createCategoryUseCase.execute(category)).rejects.toEqual(
+      new AppError("Category already exists")
+    );
   });
 });
