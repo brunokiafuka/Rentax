@@ -2,8 +2,11 @@ import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
-import { AppError } from "@shared/errors/appError";
+import auth from "@config/auth";
 import { IUsersRepository } from "@modules/accounts/repositories/interfaces/IUsersRepository";
+import { IUsersTokensRepository } from "@modules/accounts/repositories/interfaces/IUsersTokensRepository";
+import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
+import { AppError } from "@shared/errors/appError";
 
 interface IRequest {
   email: string;
@@ -16,12 +19,18 @@ interface IResponse {
     email: string;
   };
   token: string;
+  refresh_token: string;
 }
 
 @injectable()
 class AuthenticateUserUseCase {
   constructor(
-    @inject("UsersRepository") private usersRepository: IUsersRepository
+    @inject("UsersRepository")
+    private usersRepository: IUsersRepository,
+    @inject("UsersTokenRepository")
+    private usersTokenRepository: IUsersTokensRepository,
+    @inject("DateProvider")
+    private dateProvider: IDateProvider
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -37,9 +46,32 @@ class AuthenticateUserUseCase {
       throw new AppError("Email or password incorrect!", 401);
     }
 
-    const token = sign({}, "a7e071b3de48cec1dd24de6cbe6c7bf1", {
+    const {
+      secretToken,
+      expiresIn,
+      secretRefreshToken,
+      expiresInRefreshToken,
+      expireRefreshTokenDays,
+    } = auth;
+
+    const refresh_token = sign({ email }, secretRefreshToken, {
       subject: user.id,
-      expiresIn: "1d",
+      expiresIn: expiresInRefreshToken,
+    });
+
+    const refresh_token_expired_date = this.dateProvider.addDays(
+      expireRefreshTokenDays
+    );
+
+    await this.usersTokenRepository.create({
+      user_id: user.id,
+      refresh_token,
+      expire_date: refresh_token_expired_date,
+    });
+
+    const token = sign({}, secretToken, {
+      subject: user.id,
+      expiresIn,
     });
 
     const authReturn: IResponse = {
@@ -48,6 +80,7 @@ class AuthenticateUserUseCase {
         email,
         name: user.name,
       },
+      refresh_token,
     };
 
     return authReturn;
