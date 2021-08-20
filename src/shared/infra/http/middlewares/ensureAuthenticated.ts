@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
 import auth from "@config/auth";
-import { UsersTokenRepository } from "@modules/accounts/infra/typorm/repositories/UsersTokenRepository";
+// import { UsersTokenRepository } from "@modules/accounts/infra/typorm/repositories/UsersTokenRepository";
 
 import { AppError } from "../../../errors/appError";
 
@@ -24,18 +24,18 @@ export async function ensureAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, auth.secretRefreshToken) as IPayload;
+    const { sub: user_id } = verify(token, auth.secretToken) as IPayload;
 
-    const usersTokenRepository = new UsersTokenRepository();
+    // const usersTokenRepository = new UsersTokenRepository();
 
-    const user = await usersTokenRepository.findUserByIdAndRefreshToken(
-      user_id,
-      token
-    );
+    // const user = await usersTokenRepository.findUserByIdAndRefreshToken(
+    //   user_id,
+    //   token
+    // );
 
-    if (!user) {
-      throw new AppError("User does not exist");
-    }
+    // if (!user) {
+    //   throw new AppError("User does not exist");
+    // }
 
     req.user = {
       id: user_id,
